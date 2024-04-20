@@ -40,8 +40,12 @@ const createUser = async (
         return next(createHttpError(500, "error while creting user"))
     }
 
-    const token = sign({ sub: newUser._id }, config.jwtSecret as string, { expiresIn: "7d", algorithm: "HS256" });
+    try {
+        const token = sign({ sub: newUser._id }, config.jwtSecret as string, { expiresIn: "7d", algorithm: "HS256" });
 
-    res.json({ accessToken: token });
+        res.json({ accessToken: token });
+    } catch (error) {
+        return next(createHttpError(500, "error while signing jwt token"));
+    }
 }
 export { createUser };
