@@ -11,8 +11,9 @@ app.get("/", (req, res, next) => {
     res.json({ massage: "welcome to my eLibrary" })
 })
 app.use("/api/users", userRouter)
-app.use("/api/users", bookRouter)
+app.use("/api/books", bookRouter)
 
 app.use(globalErrorHandler)
 
 export default app;
+
