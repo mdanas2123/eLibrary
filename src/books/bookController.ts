@@ -287,6 +287,49 @@ const getSinglebook = async (
         return next(createHttpError(500, "Error while getting a single Book"));
     }
 
-}
+};
 
-export { createBook, updateBook, bookList, getSinglebook };
+const deleteBook = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const bookId = req.params.bookId;
+    try {
+        // Find the book by ID
+        const book = await bookModel.findById(bookId);
+
+        // If book is not found, return 404 error
+        if (!book) {
+            return next(createHttpError(404, "Book not found"));
+        }
+
+        // Check if the current user is the author of the book
+        const _req = req as AuthRequest;
+        if (book.author.toString() !== _req.userId) {
+            return next(createHttpError(403, "Unauthorized: You can't delete this book"));
+        }
+
+        // Split cover image URL
+        const coverFileSplit = book.coverImage.split("/");
+        const coverImagePublicId = coverFileSplit.at(-2) + "/" + (coverFileSplit.at(-1)?.split('.').at(-2));
+
+        const bookFileSplit = book.file.split("/");
+        const bookFilePublicId = bookFileSplit.at(-2) + "/" + (bookFileSplit.at(-1))
+        console.log("coverSplit", bookFilePublicId);
+        // Add logic to delete book from database and cloudinary, then respond accordingly
+        await cloudinary.uploader.destroy(coverImagePublicId);
+        await cloudinary.uploader.destroy(bookFilePublicId, {
+            resource_type: 'raw',
+        });
+        await bookModel.deleteOne({ _id: bookId })
+        return res.sendStatus(204);
+    } catch (error) {
+        // Handle any errors
+        next(createHttpError(500, "Internal server error"));
+    }
+};
+
+
+
+export { createBook, updateBook, bookList, getSinglebook, deleteBook };
