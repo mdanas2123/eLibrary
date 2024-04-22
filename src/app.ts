@@ -2,10 +2,19 @@ import express from "express";
 import globalErrorHandler from "./Middleware/globalErrorHandler";
 import userRouter from "./user/userRouter";
 import bookRouter from "./books/bookRouter";
+import cors from "cors";
+import { config } from "./config/config";
+
 
 
 const app = express();
 app.use(express.json());
+app.use(
+    cors({
+        origin: config.frontendDomain,
+        credentials: true,
+    })
+)
 
 app.get("/", (req, res, next) => {
     res.json({ massage: "welcome to my eLibrary" })
