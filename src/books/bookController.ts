@@ -255,6 +255,20 @@ const updateBook = async (
     } catch (error) {
         next(createHttpError(500, "Error while updating book"));
     }
-};
 
-export { createBook, updateBook };
+};
+const bookList = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const books = await bookModel.find();
+        res.json(books)
+    } catch (error) {
+        return next(createHttpError(500, "Error in boolList"));
+    }
+
+}
+
+export { createBook, updateBook, bookList };
