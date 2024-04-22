@@ -269,6 +269,24 @@ const bookList = async (
         return next(createHttpError(500, "Error in boolList"));
     }
 
+};
+
+const getSinglebook = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const bookId = req.params.bookId;
+    try {
+        const SingleBook = await bookModel.find({ _id: bookId });
+        if (!SingleBook) {
+            return next(createHttpError(404, "Book not found"));
+        }
+        res.json(SingleBook)
+    } catch (error) {
+        return next(createHttpError(500, "Error while getting a single Book"));
+    }
+
 }
 
-export { createBook, updateBook, bookList };
+export { createBook, updateBook, bookList, getSinglebook };
