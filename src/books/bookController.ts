@@ -37,6 +37,8 @@ const createBook = async (
         });
         console.log(bookFileUploadResult);
         console.log(uploadResult)
+        //@ts-ignore
+        console.log("userId", req.userId);
         const newBook = await bookModel.create({
             title,
             genre,
