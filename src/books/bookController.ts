@@ -11,7 +11,7 @@ const createBook = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { title, genre } = req.body;
+    const { title, genre, description, authorName } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
     try {
@@ -42,6 +42,8 @@ const createBook = async (
         const newBook = await bookModel.create({
             title,
             genre,
+            description,
+            authorName,
             author: _req.userId,
             coverImage: coverUploadResult.secure_url,
             file: bookUploadResult.secure_url
@@ -66,7 +68,7 @@ const updateBook = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { title, genre } = req.body;
+    const { title, genre, description, authorName } = req.body;
     const bookId = req.params.bookId;
 
     try {
@@ -131,7 +133,7 @@ const updateBook = async (
         // Update book in the database with new file URLs
         const updatedBook = await bookModel.findByIdAndUpdate(
             bookId,
-            { title, genre, coverImage: updatedCoverImage, file: updatedBookFile },
+            { title, genre, description: description, coverImage: updatedCoverImage, authorName, file: updatedBookFile },
             { new: true }
         );
 
@@ -142,20 +144,26 @@ const updateBook = async (
 };
 
 
-
 const bookList = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
     try {
-        const books = await bookModel.find();
-        res.json(books)
-    } catch (error) {
-        return next(createHttpError(500, "Error in boolList"));
-    }
+        const books = await bookModel.find().populate({
+            path: 'author',
+            select: 'name description authorName'
+        });
 
+        res.json(books);
+
+
+    } catch (error) {
+        return next(createHttpError(500, "Error in bookList"));
+    }
 };
+
+
 
 const getSinglebook = async (
     req: Request,
@@ -164,16 +172,20 @@ const getSinglebook = async (
 ) => {
     const bookId = req.params.bookId;
     try {
-        const SingleBook = await bookModel.find({ _id: bookId });
-        if (!SingleBook) {
+        const singleBook = await bookModel.findOne({ _id: bookId }).populate({
+            path: 'author',
+            select: 'name description authorName '
+        });
+
+        if (!singleBook) {
             return next(createHttpError(404, "Book not found"));
         }
-        res.json(SingleBook)
+        res.json(singleBook);
     } catch (error) {
         return next(createHttpError(500, "Error while getting a single Book"));
     }
-
 };
+
 
 const deleteBook = async (
     req: Request,
@@ -211,7 +223,7 @@ const deleteBook = async (
         await bookModel.deleteOne({ _id: bookId })
         return res.sendStatus(204);
     } catch (error) {
-        // Handle any errors
+
         next(createHttpError(500, "Internal server error"));
     }
 };
