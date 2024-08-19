@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from "express";
-import path from 'node:path';
+// import path from 'node:path';
 import cloudinary from "../config/cloudinary";
 import createHttpError from "http-errors";
 import bookModel from "./bookModel";
@@ -29,8 +29,9 @@ const createBook = async (
         const bookFile = files.file[0];
         const bookFileUpload = cloudinary.uploader.upload(bookFile.path, {
             resource_type: 'raw',
-            folder: "book-pdfs",
-            format: "pdf",
+            // folder: "book-pdfs",
+            // format: "application/pdf",
+            format: bookFile.mimetype.split('/').at(-1)
         });
         uploadPromises.push(bookFileUpload);
 

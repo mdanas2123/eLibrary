@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.ts"
+    "dev": "nodemon server.ts",
+    "build":"tsc",
+    "docker:publish":"docker build -t codingspace/elibrary:v2 --platform linux/amd64 .&& docker push codingspace/elibrary:v2"
   },
   "author": "",
   "license": "ISC",

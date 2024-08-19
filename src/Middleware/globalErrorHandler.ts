@@ -1,8 +1,8 @@
-import express, { NextFunction, Response, Request } from "express";
-import createHttpError, { HttpError } from "http-errors";
+import { Response, Request } from "express";
+import { HttpError } from "http-errors";
 import { config } from "../config/config";
 
-const globalErrorHandler = (err: HttpError, req: Request, res: Response, next: NextFunction) => {
+const globalErrorHandler = (err: HttpError, req: Request, res: Response) => {
     const statusCode = err.statusCode || 500
     return res.status(statusCode).json({
         message: err.message,
@@ -13,3 +13,4 @@ const globalErrorHandler = (err: HttpError, req: Request, res: Response, next: N
 
 }
 export default globalErrorHandler;
+

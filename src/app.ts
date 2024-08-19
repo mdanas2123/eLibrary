@@ -9,6 +9,7 @@ import { config } from "./config/config";
 
 const app = express();
 app.use(express.json());
+console.log("frontend domain is : ", config.frontendDomain)
 app.use(
     cors({
         origin: config.frontendDomain,
