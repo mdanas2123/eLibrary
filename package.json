@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.ts",
-    "dev": "nodemon server.ts",
-  
-    "build": "tsc",
-    "docker:publish": "docker build -t codingspace/elibrary:v2 --platform linux/amd64 .&& docker push codingspace/elibrary:v2"
-  },
+  "dev": "nodemon server.ts",
+  "build": "tsc", 
+  "start": "node dist/server.js", 
+  "docker:publish": "docker build -t codingspace/elibrary:v2 --platform linux/amd64 . && docker push codingspace/elibrary:v2" 
+},
+
   "author": "",
   "license": "ISC",
   "devDependencies": {

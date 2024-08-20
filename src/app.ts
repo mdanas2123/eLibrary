@@ -17,7 +17,11 @@ app.use(
     })
 )
 
-app.get("/", (req, res) => {
+// app.get("/", (req, res) => {
+//     res.json({ massage: "welcome to my eLibrary" })
+// })
+
+app.all("/", (req, res) => {
     res.json({ massage: "welcome to my eLibrary" })
 })
 app.use("/api/users", userRouter)
