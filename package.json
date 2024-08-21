@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-  "dev": "nodemon src/server.ts",
+  "dev": "nodemon src/index.ts",
   "build": "tsc", 
-  "start": "node dist/server.js", 
+  "start": "node dist/src/index.js", 
   "docker:publish": "docker build -t codingspace/elibrary:v2 --platform linux/amd64 . && docker push codingspace/elibrary:v2" 
 },
 
