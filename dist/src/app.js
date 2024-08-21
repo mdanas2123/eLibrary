@@ -16,7 +16,10 @@ app.use((0, cors_1.default)({
     origin: config_1.config.frontendDomain,
     credentials: true,
 }));
-app.get("/", (req, res, next) => {
+// app.get("/", (req, res) => {
+//     res.json({ massage: "welcome to my eLibrary" })
+// })
+app.all("/", (req, res) => {
     res.json({ massage: "welcome to my eLibrary" });
 });
 app.use("/api/users", userRouter_1.default);
