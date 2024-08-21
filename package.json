@@ -2,9 +2,9 @@
   "name": "elib",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.ts",
   "scripts": {
-  "dev": "nodemon server.ts",
+  "dev": "nodemon src/server.ts",
   "build": "tsc", 
   "start": "node dist/server.js", 
   "docker:publish": "docker build -t codingspace/elibrary:v2 --platform linux/amd64 . && docker push codingspace/elibrary:v2" 

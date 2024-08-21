@@ -1,6 +1,6 @@
-import app from "./src/app";
-import { config } from "./src/config/config";
-import connectDB from "./src/config/db";
+import app from "./app";
+import { config } from "./config/config";
+import connectDB from "./config/db";
 
 const StartServer = async () => {
     await connectDB();
@@ -11,3 +11,5 @@ const StartServer = async () => {
     });
 };
 StartServer();
+
+export default app;
