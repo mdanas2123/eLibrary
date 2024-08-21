@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./app"));
 const config_1 = require("./config/config");
-// import connectDB from "./config/db";
+const db_1 = __importDefault(require("./config/db"));
 const StartServer = () => __awaiter(void 0, void 0, void 0, function* () {
-    // await connectDB();
+    yield (0, db_1.default)();
     const port = config_1.config.port || 3000;
     app_1.default.listen(port, () => {
         console.log(`listening on port ${port}`);
