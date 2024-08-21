@@ -1,7 +1,7 @@
 import express from "express";
 import globalErrorHandler from "./Middleware/globalErrorHandler";
-import userRouter from "./user/userRouter";
-import bookRouter from "./books/bookRouter";
+// import userRouter from "./user/userRouter";
+// import bookRouter from "./books/bookRouter";
 import cors from "cors";
 import { config } from "./config/config";
 
@@ -17,16 +17,13 @@ app.use(
     })
 )
 
-// app.get("/", (req, res) => {
-//     res.json({ massage: "welcome to my eLibrary" })
-// })
 
-app.all("/", (req, res) => {
+app.get("/", (req, res) => {
     res.json({ massage: "welcome to my eLibrary" })
 })
-app.use("/api/users", userRouter)
+// app.use("/api/users", userRouter)
 
-app.use("/api/books", bookRouter)
+// app.use("/api/books", bookRouter)
 
 app.use(globalErrorHandler)
 

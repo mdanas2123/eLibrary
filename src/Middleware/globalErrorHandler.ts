@@ -1,8 +1,9 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import { HttpError } from "http-errors";
 import { config } from "../config/config";
 
-const globalErrorHandler = (err: HttpError, req: Request, res: Response) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const globalErrorHandler = (err: HttpError, req: Request, res: Response, next: NextFunction) => {
     const statusCode = err.statusCode || 500
     return res.status(statusCode).json({
         message: err.message,
