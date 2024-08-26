@@ -41,30 +41,30 @@ app.use(express.json());
 
 console.log("Frontend domain is:", config.frontendDomain);
 
+// Simplified CORS configuration
 app.use(
     cors({
-        origin: function (origin, callback) {
-            if (!origin || origin === config.frontendDomain) {
-                callback(null, true);
-            } else {
-                callback(new Error("Not allowed by CORS"));
-            }
-        },
-        credentials: true,
+        origin: config.frontendDomain,  // Allow only the frontend domain
+        credentials: true,              // Allow credentials (cookies, authorization headers, etc.)
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",  // Allow specific HTTP methods
+        allowedHeaders: "Content-Type, Authorization",  // Allow specific headers
+        optionsSuccessStatus: 204,  // Response status for successful OPTIONS requests
     })
 );
 
-// Handle preflight `OPTIONS` requests globally
+// Handle preflight `OPTIONS` requests
 app.options("*", cors());
 
+// Basic route to check if the server is running
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to my eLibrary" });
 });
 
+// API routes
 app.use("/api/users", userRouter);
-
 app.use("/api/books", bookRouter);
 
+// Global error handler
 app.use(globalErrorHandler);
 
 export default app;
