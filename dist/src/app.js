@@ -33,31 +33,24 @@ const cors_1 = __importDefault(require("cors"));
 const config_1 = require("./config/config");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-// Log the frontend domain for debugging purposes
 console.log("Frontend domain is:", config_1.config.frontendDomain);
-// CORS configuration
 app.use((0, cors_1.default)({
     origin: function (origin, callback) {
-        // Allow the specific frontend domain
-        if (origin === config_1.config.frontendDomain || !origin) {
+        if (!origin || origin === config_1.config.frontendDomain) {
             callback(null, true);
         }
         else {
             callback(new Error("Not allowed by CORS"));
         }
     },
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
     credentials: true,
-    allowedHeaders: "Content-Type,Authorization",
 }));
-// Handle preflight requests for all routes
+// Handle preflight `OPTIONS` requests globally
 app.options("*", (0, cors_1.default)());
-// Define routes
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to my eLibrary" });
 });
 app.use("/api/users", userRouter_1.default);
 app.use("/api/books", bookRouter_1.default);
-// Global error handler
 app.use(globalErrorHandler_1.default);
 exports.default = app;
