@@ -36,7 +36,7 @@ app.use(express_1.default.json());
 console.log("Frontend domain is:", config_1.config.frontendDomain);
 // Simplified CORS configuration
 app.use((0, cors_1.default)({
-    origin: config_1.config.frontendDomain, // Allow only the frontend domain
+    origin: [config_1.config.frontendDomain || "https://www.flipkart.com", "https://e-lib-frontend.vercel.app"], // Allow only the frontend domain
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS", // Allow specific HTTP methods
     allowedHeaders: "Content-Type, Authorization", // Allow specific headers
